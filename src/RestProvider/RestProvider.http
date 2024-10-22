@@ -1,0 +1,20 @@
+@RestProvider_HostAddress = http://localhost:5196
+
+POST {{RestProvider_HostAddress}}/transactions
+Content-Type: application/json
+
+{
+  "amount": 880.26,
+  "senderName": "Ignacio Okuneva",
+  "recipientName": "Claudine Hintz",
+  "recipientBankAccountNumber": "02473661260708"
+}
+
+> {%
+    client.global.set("transactionId", response.body.id)
+%}
+
+###
+
+GET {{RestProvider_HostAddress}}/transactions/{{transactionId}}
+
