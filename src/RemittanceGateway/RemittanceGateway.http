@@ -8,4 +8,17 @@ POST {{RemittanceGateway_HostAddress}}/transactions
 
 ###
 
+POST {{RemittanceGateway_HostAddress}}/transactions/proxy
+
+> {%
+    client.global.set("transactionId", response.body.id)
+%}
+
+###
+
+< {%
+    //client.global.set("transactionId", "505e82d1-ce61-4d4a-85f5-ea014dea91c1")
+    //client.global.set("transactionId", "4e8e0baa-3117-484d-8cb5-4f485448d666")
+ %}
+
 GET {{RemittanceGateway_HostAddress}}/transactions/{{transactionId}}

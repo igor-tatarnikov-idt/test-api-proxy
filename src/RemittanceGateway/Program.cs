@@ -20,6 +20,12 @@ builder.Services.AddHttpClient("RestProviderClient", client =>
     client.BaseAddress = new Uri(restProviderApiBaseUrl!);
 });
 
+var proxiedRestProviderApiBaseUrl = builder.Configuration.GetSection("RestProviderProxy:BaseUrl").Value;
+builder.Services.AddHttpClient("RestProviderProxyClient", client =>
+{
+    client.BaseAddress = new Uri(proxiedRestProviderApiBaseUrl!);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

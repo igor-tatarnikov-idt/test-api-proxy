@@ -12,6 +12,7 @@ public class TransactionsController(IHttpClientFactory httpClientFactory) : Cont
 {
     private readonly TransactionFaker _faker = new();
     private readonly HttpClient _restProviderHttpClient = httpClientFactory.CreateClient("RestProviderClient");
+    private readonly HttpClient _restProviderProxyHttpClient = httpClientFactory.CreateClient("RestProviderProxyClient");
 
     private readonly JsonSerializerOptions _serializerOptions = new()
     {
@@ -21,7 +22,8 @@ public class TransactionsController(IHttpClientFactory httpClientFactory) : Cont
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(string id, CancellationToken token)
     {
-        var response = await _restProviderHttpClient.GetAsync($"/transactions/{id}", token);
+        var uri = new Uri($"transactions/{id}", UriKind.Relative);
+        var response = await _restProviderHttpClient.GetAsync(uri, token);
 
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
@@ -41,7 +43,24 @@ public class TransactionsController(IHttpClientFactory httpClientFactory) : Cont
     {
         var transactionToCreate = _faker.Generate();
 
-        var response = await _restProviderHttpClient.PostAsJsonAsync("/transactions", transactionToCreate, cancellationToken);
+        var uri = new Uri("transactions", UriKind.Relative);
+        var response = await _restProviderHttpClient.PostAsJsonAsync(uri, transactionToCreate, cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
+        var createdTransaction = JsonSerializer.Deserialize<Transaction>(responseBody,_serializerOptions);
+
+        return new JsonResult(createdTransaction);
+    }
+    
+    [HttpPost("proxy")]
+    public async Task<IActionResult> CreateViaProxy(CancellationToken cancellationToken)
+    {
+        var transactionToCreate = _faker.Generate();
+
+        var uri = new Uri("transactions", UriKind.Relative);
+        var response = await _restProviderProxyHttpClient.PostAsJsonAsync(uri, transactionToCreate, cancellationToken);
 
         response.EnsureSuccessStatusCode();
 

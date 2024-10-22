@@ -1,4 +1,5 @@
 @RestProvider_HostAddress = http://localhost:5196
+@RestProvider_ProxyHostAddress = http://localhost:8080/rest-provider
 
 POST {{RestProvider_HostAddress}}/transactions
 Content-Type: application/json
@@ -15,6 +16,24 @@ Content-Type: application/json
 %}
 
 ###
+
+POST {{RestProvider_ProxyHostAddress}}/transactions
+Content-Type: application/json
+
+{
+  "id": "59d56d09-80e6-4fcc-bc1b-605605c38299",
+  "amount": 901.90,
+  "senderName": "Lucinda Murphy123123",
+  "recipientName": "Junius Bins",
+  "recipientBankAccountNumber": "69047878610241",
+  "status": null
+}
+
+###
+
+< {%
+    //client.global.set("transactionId", "54529c1a-c806-47d6-aa80-b97d738a8aa3") 
+ %}
 
 GET {{RestProvider_HostAddress}}/transactions/{{transactionId}}
 
