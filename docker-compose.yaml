@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  rg:
+    container_name: rg
+    build:
+      context: .
+      dockerfile: ./src/RemittanceGateway/Dockerfile
+    ports:
+      - "5250:8080"
+    networks:
+      - app-network
+
+  rest-provider:
+    container_name: rest-provider
+    build:
+      context: .
+      dockerfile: ./src/RestProvider/Dockerfile
+    ports:
+      - "5196:8080"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
