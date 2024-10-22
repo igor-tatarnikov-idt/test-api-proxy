@@ -1,11 +1,14 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+var restProviderApiBaseUrl = builder.Configuration.GetSection("RestProvider:BaseUrl").Value;
+builder.Services.AddHttpClient("RestProviderClient", client =>
+{
+    client.BaseAddress = new Uri(restProviderApiBaseUrl!);
+});
 
 var app = builder.Build();
 

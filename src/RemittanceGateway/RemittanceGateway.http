@@ -1,3 +1,11 @@
 @RemittanceGateway_HostAddress = http://localhost:5250
 
 POST {{RemittanceGateway_HostAddress}}/transactions
+
+> {%
+    client.global.set("transactionId", response.body.id)
+%}
+
+###
+
+GET {{RemittanceGateway_HostAddress}}/transactions/{{transactionId}}
