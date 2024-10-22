@@ -1,16 +1,33 @@
-var builder = WebApplication.CreateBuilder(args);
+using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Compact;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
+
+builder.Services.AddSerilog(conf =>
+    conf.Enrich.FromLogContext()
+        .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
+        .WriteTo.Console(new RenderedCompactJsonFormatter()));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-app.UseAuthorization();
-
 app.MapControllers();
+app.UseSerilogRequestLogging(options =>
+    {
+        // Attach additional properties to the request completion event
+        options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+        {
+            diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+            diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+        };
+    }
+);
 
 app.Run();
