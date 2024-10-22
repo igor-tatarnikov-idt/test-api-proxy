@@ -1,3 +1,4 @@
+using RemittanceGateway.Middleware;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
@@ -34,5 +35,6 @@ app.UseSerilogRequestLogging(options =>
         };
     }
 );
+app.UseMiddleware<HttpLoggingMiddleware>();
 
 app.Run();
