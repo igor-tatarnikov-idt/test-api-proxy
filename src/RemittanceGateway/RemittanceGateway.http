@@ -1,0 +1,3 @@
+@RemittanceGateway_HostAddress = http://localhost:5250
+
+POST {{RemittanceGateway_HostAddress}}/transactions
