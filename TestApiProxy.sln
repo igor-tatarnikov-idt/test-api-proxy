@@ -6,6 +6,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6CB17DCE-F34
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestProvider", "src\RestProvider\RestProvider.csproj", "{FB6E038C-00AB-4A24-81E9-388C817A14E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tokenizer", "src\Tokenizer\Tokenizer.csproj", "{FD1EBF78-5576-45D7-93AA-E349825D255B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +22,14 @@ Global
 		{FB6E038C-00AB-4A24-81E9-388C817A14E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB6E038C-00AB-4A24-81E9-388C817A14E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB6E038C-00AB-4A24-81E9-388C817A14E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD1EBF78-5576-45D7-93AA-E349825D255B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD1EBF78-5576-45D7-93AA-E349825D255B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD1EBF78-5576-45D7-93AA-E349825D255B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD1EBF78-5576-45D7-93AA-E349825D255B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{391E6272-3C6C-4FE5-86FB-AA3DB1CB0646} = {6CB17DCE-F346-4164-9331-421E880BAA61}
 		{FB6E038C-00AB-4A24-81E9-388C817A14E2} = {6CB17DCE-F346-4164-9331-421E880BAA61}
+		{FD1EBF78-5576-45D7-93AA-E349825D255B} = {6CB17DCE-F346-4164-9331-421E880BAA61}
 	EndGlobalSection
 EndGlobal

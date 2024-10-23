@@ -1,0 +1,21 @@
+@Tokenizer_HostAddress = http://localhost:5283
+
+POST {{Tokenizer_HostAddress}}/tokenize
+Content-Type: application/json
+
+"Igor Tatarnikov"
+
+> {%
+    client.global.set("token", response.body) 
+ %}
+
+###
+
+GET {{Tokenizer_HostAddress}}/validate/{{token}}
+
+###
+
+POST {{Tokenizer_HostAddress}}/detokenize
+Content-Type: application/json
+
+"{{token}}"
