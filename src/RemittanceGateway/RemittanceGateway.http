@@ -1,6 +1,44 @@
 @RemittanceGateway_HostAddress = http://localhost:5250
 
-POST {{RemittanceGateway_HostAddress}}/transactions
+< {%
+    client.global.set("amount", $random.integer(42, 1000))
+    client.global.set("senderName", $random.email)
+    client.global.set("recipientName", $random.email)
+    client.global.set("recipientBankAccountNumber", $random.alphanumeric(14))
+ %}
+
+POST {{RemittanceGateway_HostAddress}}/transactions-insecure
+Content-Type: application/json
+
+{
+  "Amount": {{amount}},
+  "SenderName": "{{senderName}}",
+  "RecipientName": "{{recipientName}}",
+  "RecipientBankAccountNumber": "{{recipientBankAccountNumber}}"
+}
+
+> {%
+    client.global.set("transactionId", response.body.id)
+%}
+
+###
+
+< {%
+    client.global.set("amount", $random.integer(42, 1000))
+    client.global.set("senderName", "pii({Name Surname " + $random.integer(1, 99) + "})")
+    client.global.set("recipientName", "pii({Name Surname " + $random.integer(1, 99) + "})")
+    client.global.set("recipientBankAccountNumber", "pci({" + $random.alphanumeric(14) + "})")
+%}
+
+POST {{RemittanceGateway_HostAddress}}/transactions-secure
+Content-Type: application/json
+
+{
+  "Amount": {{amount}},
+  "SenderName": "{{senderName}}",
+  "RecipientName": "{{recipientName}}",
+  "RecipientBankAccountNumber": "{{recipientBankAccountNumber}}"
+}
 
 > {%
     client.global.set("transactionId", response.body.id)

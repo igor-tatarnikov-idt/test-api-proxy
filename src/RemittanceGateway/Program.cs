@@ -1,3 +1,4 @@
+using RemittanceGateway.Const;
 using RemittanceGateway.Middleware;
 using Serilog;
 using Serilog.Events;
@@ -14,16 +15,17 @@ builder.Services.AddSerilog(conf =>
         .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
         .WriteTo.Console(new RenderedCompactJsonFormatter()));
 
-var restProviderApiBaseUrl = builder.Configuration.GetSection("RestProvider:BaseUrl").Value;
-builder.Services.AddHttpClient("RestProviderClient", client =>
+var providerBaseUrl = builder.Configuration.GetSection("RestProvider:BaseUrl").Value;
+builder.Services.AddHttpClient(HttpClientName.Insecure, client =>
 {
-    client.BaseAddress = new Uri(restProviderApiBaseUrl!);
+    client.BaseAddress = new Uri(providerBaseUrl!);
 });
 
-var proxiedRestProviderApiBaseUrl = builder.Configuration.GetSection("RestProviderProxy:BaseUrl").Value;
-builder.Services.AddHttpClient("RestProviderProxyClient", client =>
+var proxyBaseUrl = builder.Configuration.GetSection("Proxy:BaseUrl").Value;
+builder.Services.AddHttpClient(HttpClientName.Secure, client =>
 {
-    client.BaseAddress = new Uri(proxiedRestProviderApiBaseUrl!);
+    client.BaseAddress = new Uri(proxyBaseUrl!);
+    client.DefaultRequestHeaders.Add("X-Target-URL", providerBaseUrl);
 });
 
 var app = builder.Build();
