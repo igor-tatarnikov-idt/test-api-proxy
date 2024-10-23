@@ -1,6 +1,16 @@
 version: '3.8'
 
 services:
+  tokenizer:
+    container_name: tokenizer
+    build:
+      context: .
+      dockerfile: ./src/Tokenizer/Dockerfile
+    ports:
+      - "5283:8080"
+    networks:
+      - app-network
+  
   rg:
     container_name: rg
     build:
@@ -20,7 +30,7 @@ services:
       - "5196:8080"
     networks:
       - app-network
-        
+
   nginx:
     build:
       context: .
@@ -30,6 +40,7 @@ services:
     depends_on:
       - rg
       - rest-provider
+      - tokenizer
     networks:
       - app-network
     volumes:
