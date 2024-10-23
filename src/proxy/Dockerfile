@@ -4,6 +4,7 @@ FROM openresty/openresty:alpine-fat
 # Copy the custom Nginx configuration file into the Docker image
 RUN ls
 COPY ["src/proxy/nginx.conf", "/usr/local/openresty/nginx/conf/nginx.conf"]
+COPY ["src/proxy/lua/.", "/usr/local/openresty/nginx/conf/lua/."]
 
 # Install Lua dependencies (resty-http for making HTTP requests)
 RUN apk update 

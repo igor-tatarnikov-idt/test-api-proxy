@@ -58,6 +58,9 @@ public class TransactionsController(IHttpClientFactory httpClientFactory) : Cont
     public async Task<IActionResult> CreateViaProxy(CancellationToken cancellationToken)
     {
         var transactionToCreate = _faker.Generate();
+        transactionToCreate.SenderName = $"pii({{{transactionToCreate.SenderName}}})";
+        transactionToCreate.RecipientName = $"pii({{{transactionToCreate.RecipientName}}})";
+        transactionToCreate.RecipientBankAccountNumber = $"pci({{{transactionToCreate.RecipientBankAccountNumber}}})";
 
         var uri = new Uri("transactions", UriKind.Relative);
         var response = await _restProviderProxyHttpClient.PostAsJsonAsync(uri, transactionToCreate, cancellationToken);
