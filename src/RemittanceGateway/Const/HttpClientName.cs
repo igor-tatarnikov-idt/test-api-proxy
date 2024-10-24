@@ -2,6 +2,5 @@ namespace RemittanceGateway.Const;
 
 public static class HttpClientName
 {
-    public const string Insecure = "Insecure";
-    public const string Secure = "Secure";
+    public const string Rest = "Rest";
 }

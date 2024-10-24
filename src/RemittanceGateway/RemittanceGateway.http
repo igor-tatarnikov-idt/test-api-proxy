@@ -1,13 +1,15 @@
 @RemittanceGateway_HostAddress = http://localhost:5250
+@RemittanceGateway_DockerHostAddress = http://rg
+@Proxy_HostAddress = http://localhost:8081
 
 < {%
     client.global.set("amount", $random.integer(42, 1000))
-    client.global.set("senderName", $random.email)
-    client.global.set("recipientName", $random.email)
+    client.global.set("senderName", "Name Surname " + $random.integer(1, 99))
+    client.global.set("recipientName", "Name Surname " + $random.integer(1, 99))
     client.global.set("recipientBankAccountNumber", $random.alphanumeric(14))
  %}
 
-POST {{RemittanceGateway_HostAddress}}/transactions-insecure
+POST {{RemittanceGateway_HostAddress}}/transactions/rest
 Content-Type: application/json
 
 {
@@ -25,13 +27,15 @@ Content-Type: application/json
 
 < {%
     client.global.set("amount", $random.integer(42, 1000))
-    client.global.set("senderName", "pii({Name Surname " + $random.integer(1, 99) + "})")
-    client.global.set("recipientName", "pii({Name Surname " + $random.integer(1, 99) + "})")
-    client.global.set("recipientBankAccountNumber", "pci({" + $random.alphanumeric(14) + "})")
+    client.global.set("senderName", "Name Surname " + $random.integer(1, 99))
+    client.global.set("recipientName", "Name Surname " + $random.integer(1, 99))
+    client.global.set("recipientBankAccountNumber", $random.alphanumeric(14))
 %}
 
-POST {{RemittanceGateway_HostAddress}}/transactions-secure
+POST {{Proxy_HostAddress}}/transactions/rest
 Content-Type: application/json
+X-Target-Host: rg:8080
+X-Tokenization-Mode: tokenize
 
 {
   "Amount": {{amount}},
@@ -39,14 +43,6 @@ Content-Type: application/json
   "RecipientName": "{{recipientName}}",
   "RecipientBankAccountNumber": "{{recipientBankAccountNumber}}"
 }
-
-> {%
-    client.global.set("transactionId", response.body.id)
-%}
-
-###
-
-POST {{RemittanceGateway_HostAddress}}/transactions/proxy
 
 > {%
     client.global.set("transactionId", response.body.id)

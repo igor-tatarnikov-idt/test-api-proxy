@@ -1,5 +1,7 @@
 /src/RemittanceGateway/bin/
 /src/RemittanceGateway/obj/
+/src/RestAdapter/obj/
+/src/RestAdapter/bin/
 /src/RestProvider/bin/
 /src/RestProvider/obj/
 /src/Tokenizer/bin/

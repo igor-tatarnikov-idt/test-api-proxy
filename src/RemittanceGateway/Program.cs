@@ -15,17 +15,10 @@ builder.Services.AddSerilog(conf =>
         .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
         .WriteTo.Console(new RenderedCompactJsonFormatter()));
 
-var providerBaseUrl = builder.Configuration.GetSection("RestProvider:BaseUrl").Value;
-builder.Services.AddHttpClient(HttpClientName.Insecure, client =>
+var restAdapterBaseUrl = builder.Configuration.GetSection("RestAdapter:BaseUrl").Value;
+builder.Services.AddHttpClient(HttpClientName.Rest, client =>
 {
-    client.BaseAddress = new Uri(providerBaseUrl!);
-});
-
-var proxyBaseUrl = builder.Configuration.GetSection("Proxy:BaseUrl").Value;
-builder.Services.AddHttpClient(HttpClientName.Secure, client =>
-{
-    client.BaseAddress = new Uri(proxyBaseUrl!);
-    client.DefaultRequestHeaders.Add("X-Target-URL", providerBaseUrl);
+    client.BaseAddress = new Uri(restAdapterBaseUrl!);
 });
 
 var app = builder.Build();

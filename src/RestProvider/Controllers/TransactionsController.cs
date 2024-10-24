@@ -43,7 +43,8 @@ public class TransactionsController(IMemoryCache memoryCache) : Controller
             Amount = transaction.Amount,
             SenderName = transaction.SenderName,
             RecipientName = transaction.RecipientName,
-            RecipientBankAccountNumber = transaction.RecipientBankAccountNumber
+            RecipientBankAccountNumber = transaction.RecipientBankAccountNumber,
+            Status = transaction.Status
         })
         {
             StatusCode = StatusCodes.Status201Created

@@ -3,6 +3,7 @@ version: '3.8'
 services:
   tokenizer:
     container_name: tokenizer
+    hostname: tokenizer
     build:
       context: .
       dockerfile: ./src/Tokenizer/Dockerfile
@@ -13,6 +14,7 @@ services:
   
   rg:
     container_name: rg
+    hostname: rg
     build:
       context: .
       dockerfile: ./src/RemittanceGateway/Dockerfile
@@ -20,9 +22,21 @@ services:
       - "5250:8080"
     networks:
       - app-network
+        
+  rest-adapter:
+    container_name: rest-adapter
+    hostname: rest-adapter
+    build:
+      context: .
+      dockerfile: ./src/RestAdapter/Dockerfile
+    ports:
+      - "5047:8080"
+    networks:
+      - app-network
 
   rest-provider:
     container_name: rest-provider
+    hostname: rest-provider
     build:
       context: .
       dockerfile: ./src/RestProvider/Dockerfile
@@ -31,16 +45,19 @@ services:
     networks:
       - app-network
 
-  nginx:
+  proxy:
+    container_name: proxy
     build:
       context: .
       dockerfile: ./src/proxy/Dockerfile
     ports:
       - "8080:80"   # Expose Nginx on port 8080
+      - "8081:8081"
     depends_on:
       - rg
       - rest-provider
       - tokenizer
+      - rest-adapter
     networks:
       - app-network
     volumes:
@@ -51,3 +68,4 @@ services:
 networks:
   app-network:
     driver: bridge
+    name: sandbox_net

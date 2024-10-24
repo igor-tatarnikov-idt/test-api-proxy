@@ -7,4 +7,5 @@ public class CreateTransactionResponse
     public string SenderName { get; set; } = null!;
     public string RecipientName { get; set; } = null!;
     public string RecipientBankAccountNumber { get; set; } = null!;
+    public string Status { get; set; } = null!;
 }
