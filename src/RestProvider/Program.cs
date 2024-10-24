@@ -26,8 +26,6 @@ app.UseSerilogRequestLogging(options =>
         options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
         {
             diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
-            diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
-            diagnosticContext.Set("X-Forwarded-For", httpContext.Request.Headers["X-Forwarded-For"]);
         };
     }
 );
