@@ -1,0 +1,33 @@
+@RestAdapter_HostAddress = http://localhost:5047
+@Proxy_HostAddress = http://localhost:8081
+
+< {%
+    client.global.set("amount", $random.integer(42, 1000))
+    client.global.set("senderName", "Name Surname " + $random.integer(1, 99))
+    client.global.set("recipientName", "Name Surname " + $random.integer(1, 99))
+    client.global.set("recipientBankAccountNumber", $random.alphanumeric(14))
+%}
+
+POST {{RestAdapter_HostAddress}}/transactions-secure
+Content-Type: application/json
+
+{
+  "Amount": {{amount}},
+  "SenderName": "{{senderName}}",
+  "RecipientName": "{{recipientName}}",
+  "RecipientBankAccountNumber": "{{recipientBankAccountNumber}}"
+}
+
+###
+
+POST http://localhost:8081/transactions-secure
+Content-Type: application/json
+X-Target-Host: rest-adapter:8080
+X-Tokenization-Mode: tokenize
+
+{
+  "amount": 789798,
+  "senderName": "BOX D",
+  "recipientName": "MICHAEL J",
+  "recipientBankAccountNumber": "YyB0EcagBAlm8M"
+}
