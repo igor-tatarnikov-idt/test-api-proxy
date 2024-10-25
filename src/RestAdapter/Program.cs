@@ -16,7 +16,6 @@ builder.Services.AddSerilog(conf =>
         .WriteTo.Console(new RenderedCompactJsonFormatter()));
 
 var providerBaseUrl = builder.Configuration.GetSection("RestProvider:BaseUrl").Value;
-var providerHost = builder.Configuration.GetSection("RestProvider:Host").Value;
 builder.Services.AddHttpClient(HttpClientName.Insecure, client =>
 {
     client.BaseAddress = new Uri(providerBaseUrl!);
@@ -26,7 +25,7 @@ var proxyBaseUrl = builder.Configuration.GetSection("Proxy:BaseUrl").Value;
 builder.Services.AddHttpClient(HttpClientName.Secure, client =>
 {
     client.BaseAddress = new Uri(proxyBaseUrl!);
-    client.DefaultRequestHeaders.Add("X-Target-Host", providerHost);
+    client.DefaultRequestHeaders.Add("X-Target-Host", providerBaseUrl);
     client.DefaultRequestHeaders.Add("X-Tokenization-Mode", "detokenize");
 });
 

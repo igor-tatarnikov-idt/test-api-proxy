@@ -32,9 +32,9 @@ Content-Type: application/json
     client.global.set("recipientBankAccountNumber", $random.alphanumeric(14))
 %}
 
-POST {{Proxy_HostAddress}}/transactions/rest
+POST {{Proxy_HostAddress}}/transactions/rest?name=test&round=2
 Content-Type: application/json
-X-Target-Host: rg:8080
+X-Target-Host: http://rg:8080
 X-Tokenization-Mode: tokenize
 
 {
