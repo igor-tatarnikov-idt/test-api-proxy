@@ -1,5 +1,7 @@
 # test-api-proxy
 
+![Provider Proxy sandbox-Sandbox Stg1 drawio](https://github.com/user-attachments/assets/669ec770-fa21-466c-b564-d9c13732ed25)
+
 # Proxy
 
 ### Input
