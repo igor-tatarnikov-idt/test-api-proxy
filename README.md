@@ -9,3 +9,17 @@
 - `X-Tokenization-Mode` - one of predefined values expected - `tokenize`, `detokenize`. Missing header is treated as `as-is` and skips request payload manipulation
 - Request field names list - to process the transformation on. I.e. `senderName`, `recipientName`, `recipienBankAccountNumber`
 - Tokenizer API config
+
+
+
+### References
+- OpenResty https://openresty.org/en/
+- Docs
+  - https://nginx.org/en/docs/
+  - https://www.lua.org/manual/5.3/contents.html#contents
+  - https://openresty-reference.readthedocs.io/en/latest/
+- GitHub
+  - https://github.com/openresty/lua-nginx-module
+  - https://github.com/ledgetech/lua-resty-http
+- Misc
+  - Karl Seguin introduction to OpenResty [pt1](https://www.openmymind.net/An-Introduction-To-OpenResty-Nginx-Lua/) [pt2](https://www.openmymind.net/An-Introduction-To-OpenResty-Part-2/) [pt3](https://www.openmymind.net/An-Introduction-To-OpenResty-Part-3/)
