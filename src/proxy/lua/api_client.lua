@@ -24,7 +24,7 @@ local function send(url, method, payload)
     if res.status == 200 then
         return api_response, nil
     else
-        ngx.log(ngx.ERR, "status code: ", res.status, "; response: ", api_response)
+        ngx.log(ngx.WARN, "received status code: ", res.status, " at ", url)
         return nil, api_response
     end
 end
