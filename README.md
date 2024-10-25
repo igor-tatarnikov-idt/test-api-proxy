@@ -23,3 +23,4 @@
   - https://github.com/ledgetech/lua-resty-http
 - Misc
   - Karl Seguin introduction to OpenResty [pt1](https://www.openmymind.net/An-Introduction-To-OpenResty-Nginx-Lua/) [pt2](https://www.openmymind.net/An-Introduction-To-OpenResty-Part-2/) [pt3](https://www.openmymind.net/An-Introduction-To-OpenResty-Part-3/)
+  - Beatifying Nginx logs - [link](https://betterstack.com/community/guides/logging/how-to-view-and-configure-nginx-access-and-error-logs/#step-4-structuring-nginx-access-logs)
