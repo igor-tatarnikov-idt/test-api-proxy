@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using RestProvider.Models;
@@ -6,7 +7,9 @@ namespace RestProvider.Controllers;
 
 [ApiController]
 [Route("transactions")]
-public class TransactionsController(IMemoryCache memoryCache) : Controller
+public class TransactionsController(
+    IMemoryCache memoryCache,
+    ILogger<TransactionsController> logger) : Controller
 {
     [HttpGet("{id}")]
     public IActionResult Get(string id)
@@ -25,6 +28,8 @@ public class TransactionsController(IMemoryCache memoryCache) : Controller
     [HttpPost]
     public IActionResult Create([FromBody] CreateTransactionRequest request)
     {
+        logger.LogInformation("Received request: {RequestObject}", JsonSerializer.Serialize(request, new JsonSerializerOptions()));
+        
         var transaction = new Transaction
         {
             Id = Guid.NewGuid().ToString(),

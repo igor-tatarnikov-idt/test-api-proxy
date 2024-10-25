@@ -8,6 +8,7 @@ namespace RestAdapter.Controllers;
 
 public class BaseTransactionsController(
     IHttpClientFactory httpClientFactory,
+    ILogger<BaseTransactionsController> logger,
     string httpClientName) : Controller
 {
     protected readonly JsonSerializerOptions SerializerOptions = new()
@@ -20,6 +21,8 @@ public class BaseTransactionsController(
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateTransactionRequest createRequest, CancellationToken cancellationToken)
     {
+        logger.LogInformation("Received request object: {Request}", JsonSerializer.Serialize(createRequest, SerializerOptions));
+        
         var uri = new Uri("transactions", UriKind.Relative);
         var response = await ProviderClient.PostAsJsonAsync(uri, createRequest.ToProviderRequest(), cancellationToken);
 

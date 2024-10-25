@@ -5,7 +5,9 @@ namespace RestAdapter.Controllers;
 
 [ApiController]
 [Route("transactions-secure")]
-public class SecureTransactionsController (IHttpClientFactory httpClientFactory)
-    : BaseTransactionsController(httpClientFactory, HttpClientName.Secure)
+public class SecureTransactionsController (
+    IHttpClientFactory httpClientFactory,
+    ILogger<SecureTransactionsController> logger)
+    : BaseTransactionsController(httpClientFactory, logger, HttpClientName.Secure)
 {
 }
